@@ -1215,6 +1215,7 @@ Possible extra rowspan handling
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version ee4d7efc3ed6155392d49e10a542e2351fd5792d" name="generator">
   <link href="https://wicg.github.io/ad-click-attribution/index.html" rel="canonical">
+  <meta content="9a1d71ad578c183ea65d54fa0b8104333eb67ccb" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1472,7 +1473,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Privacy Preserving Ad Click Attribution</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2019-05-21">21 May 2019</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2019-05-23">23 May 2019</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1521,7 +1522,8 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
     <li><a href="#moderntriggering"><span class="secno">4</span> <span class="content">Modern Triggering of Ad Click Attribution</span></a>
     <li><a href="#privacy"><span class="secno">5</span> <span class="content">Privacy Considerations</span></a>
     <li><a href="#performance"><span class="secno">6</span> <span class="content">Performance Considerations</span></a>
-    <li><a href="#acknowledgements"><span class="secno">7</span> <span class="content">Acknowledgements</span></a>
+    <li><a href="#relatedwork"><span class="secno">7</span> <span class="content">Related Work</span></a>
+    <li><a href="#acknowledgements"><span class="secno">8</span> <span class="content">Acknowledgements</span></a>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -1657,7 +1659,14 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
    </ul>
    <h2 class="heading settled" data-level="6" id="performance"><span class="secno">6. </span><span class="content">Performance Considerations</span><a class="self-link" href="#performance"></a></h2>
    <p>The user agent may want to limit the amount of stored ad click attribution data. Limitations can be set per ad click source, per ad click destination, and on the total amount of ad click attribution data.</p>
-   <h2 class="heading settled" data-level="7" id="acknowledgements"><span class="secno">7. </span><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgements"></a></h2>
+   <h2 class="heading settled" data-level="7" id="relatedwork"><span class="secno">7. </span><span class="content">Related Work</span><a class="self-link" href="#relatedwork"></a></h2>
+   <p>The Web Advertising Business Group has related work that started in January 2019. It similarly uses a .well-known path with no cookies.
+https://github.com/w3c/web-advertising/blob/master/admetrics.md</p>
+   <p>Brave publised a security and privacy model for ad confirmations in March 2019.
+https://github.com/brave/brave-browser/wiki/Security-and-privacy-model-for-ad-confirmations</p>
+   <p>Google Chrome published an explainer document on May 22, 2019, for a very similar technology. They cross-reference this spec in its earlier form on the WebKit wiki.
+https://github.com/csharrison/conversion-measurement-api</p>
+   <h2 class="heading settled" data-level="8" id="acknowledgements"><span class="secno">8. </span><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgements"></a></h2>
    <p>Thanks to
 Maciej Stachowiak,
 Brent Fulgham,
