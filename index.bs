@@ -1,5 +1,5 @@
 <pre class='metadata'>
-Title: Privacy Preserving Ad Click Attribution
+Title: Private Click Measurement
 Shortname: ad-click-attribution
 Level: 1
 Status: CG-DRAFT
@@ -78,15 +78,15 @@ A high level example of a scenario where the described technology is intended to
 
 The ad click source needs to be an anchor tag with the following properties:
 <xmp class="highlight" highlight=html>
-<a adcampaignid="[6-bit ad campaign id]" addestination="[ad click destination URL]">
+<a adCampaignId="[6-bit ad campaign id]" adDestination="[ad click destination URL]">
 </xmp>
 
 Formally:
 
 <pre class="idl">
 partial interface HTMLAnchorElement {
-    [CEReactions=NotNeeded, Reflect] attribute DOMString adcampaignid;
-    [CEReactions=NotNeeded, Reflect] attribute DOMString addestination;
+    [CEReactions=NotNeeded, Reflect] attribute DOMString adCampaignId;
+    [CEReactions=NotNeeded, Reflect] attribute DOMString adDestination;
 };
 </pre>
 
