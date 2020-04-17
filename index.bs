@@ -77,19 +77,21 @@ A high level example of a scenario where the described technology is intended to
 
 The ad click source needs to be an anchor tag with the following properties:
 <xmp class="highlight" highlight=html>
-<a adCampaignId="[6-bit ad campaign id]" adDestination="[ad click destination URL]">
+<a adcampaignid="[6-bit ad campaign id]" addestination="[ad click destination URL]">
 </xmp>
 
 Formally:
 
 <pre class="idl">
 partial interface HTMLAnchorElement {
-    [CEReactions=NotNeeded, Reflect] attribute DOMString adCampaignId;
-    [CEReactions=NotNeeded, Reflect] attribute DOMString adDestination;
+    [CEReactions] attribute DOMString adCampaignId;
+    [CEReactions] attribute USVString adDestination;
 };
 </pre>
 
-Issue: These attributes should be on HTMLHyperlinkElementUtils instead.
+The IDL attributes {{HTMLAnchorElement/adCampaignId}} and {{HTMLAnchorElement/adDestination}} must [=reflect=] the <code>adcampaignid</code> and <code>addestination</code> content attributes, respectively.
+
+ISSUE(1): Should these attributes be on HTMLHyperlinkElementUtils instead?
 
 If an ad click on the above link triggers a top frame navigation that lands, possibly after HTTP redirects, on the <code>[ad click destination eTLD+1]</code>, the user agent stores the request for ad click attribution as the triple <code>{ [ad click source eTLD+1], [ad click destination eTLD+1], [6-bit ad campaign id] }</code>. If any of the conditions do not hold, such as the ad campaign id being larger than 6-bit, the request for ad click attribution is ignored.
 
