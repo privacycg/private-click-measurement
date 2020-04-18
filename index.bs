@@ -6,7 +6,7 @@ Status: CG-DRAFT
 Group: WICG
 Repository: WICG/ad-click-attribution
 URL: https://wicg.github.io/ad-click-attribution/index.html
-Editor: John Wilander, Apple Inc. https://apple.com/, wilander@apple.com
+Editor: John Wilander, w3cid 89478, Apple Inc. https://apple.com/, wilander@apple.com
 Abstract: This specification defines a privacy preserving way to attribute a conversion, such as a purchase or a sign-up, to a previous ad click.
 Markup Shorthands: idl yes
 Complain About: missing-example-ids yes
