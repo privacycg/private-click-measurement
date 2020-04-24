@@ -1,8 +1,8 @@
 <!doctype html><html lang="en">
  <head>
-  <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  <meta charset="utf-8">
   <title>Private Click Measurement</title>
-  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+  <meta content="width=device-width" name="viewport">
 <style data-fill-with="stylesheet">/******************************************************************************
  *                   Style sheet for the W3C specifications                   *
  *
@@ -1222,9 +1222,9 @@ Possible extra rowspan handling
 	}
 </style>
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
-  <meta content="Bikeshed version 2891b22e, updated Thu Mar 26 15:21:43 2020 -0700" name="generator">
-  <link href="https://wicg.github.io/ad-click-attribution/index.html" rel="canonical">
-  <meta content="9755e8a40574d773dddf2215b09d34cb588c90dc" name="document-revision">
+  <meta content="Bikeshed version a33f8714, updated Thu Apr 23 16:21:43 2020 -0700" name="generator">
+  <link href="https://privacycg.github.io/private-click-measurement/" rel="canonical">
+  <meta content="2fcc47a21c71361842ccee0d61de8bc0983453a6" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1478,41 +1478,40 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     var.selected5 { background-color: #82DDFF; box-shadow: 0 0 0 2px #82DDFF; }
     var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
     </style>
- <body class="h-entry">
-  <div class="head">
+ <body>
+  <header>
    <p data-fill-with="logo"></p>
-   <h1 class="p-name no-ref" id="title">Private Click Measurement</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2020-04-17">17 April 2020</time></span></h2>
+   <h1 class="no-ref" id="title">Private Click Measurement</h1>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2020-04-24">24 April 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
-     <dd><a class="u-url" href="https://wicg.github.io/ad-click-attribution/index.html">https://wicg.github.io/ad-click-attribution/index.html</a>
+     <dd><a class="u-url" href="https://privacycg.github.io/private-click-measurement/">https://privacycg.github.io/private-click-measurement/</a>
      <dt>Issue Tracking:
-     <dd><a href="https://github.com/WICG/ad-click-attribution/issues/">GitHub</a>
+     <dd><a href="https://github.com/privacycg/private-click-measurement/issues/">GitHub</a>
      <dd><a href="#issues-index">Inline In Spec</a>
      <dt class="editor">Editor:
-     <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:wilander@apple.com">John Wilander</a> (<a class="p-org org" href="https://apple.com/">Apple Inc.</a>)
+     <dd class="editor p-author h-card vcard" data-editor-id="89478"><a class="p-name fn u-email email" href="mailto:wilander@apple.com">John Wilander</a> (<a class="p-org org" href="https://apple.com/">Apple Inc.</a>)
     </dl>
    </div>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2020 the Contributors to the Private Click Measurement Specification, published by the <a href="https://www.w3.org/community/wicg/">Web Platform Incubator Community Group</a> under the <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>.
-A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/">summary</a> is available. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2020 the Contributors to “Private Click Measurement”, published by the <a href="http://www.w3.org/community/privacycg/">Privacy Community Group</a>.
+
+This document is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+
+Contributions to this document are made under the <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>. </p>
    <hr title="Separator for header">
-  </div>
-  <div class="p-summary" data-fill-with="abstract">
+  </header>
+  <div data-fill-with="abstract">
    <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
    <p>This specification defines a privacy preserving way to attribute a conversion, such as a purchase or a sign-up, to a previous ad click.</p>
   </div>
-  <div data-fill-with="at-risk"></div>
   <h2 class="no-num no-toc no-ref heading settled" id="status"><span class="content">Status of this document</span></h2>
   <div data-fill-with="status">
-   <p> This specification was published by the <a href="https://www.w3.org/community/wicg/">Web Platform Incubator Community Group</a>.
-  It is not a W3C Standard nor is it on the W3C Standards Track.
-
-  Please note that under the <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a> there is a limited opt-out and other conditions apply.
-
-  Learn more about <a href="http://www.w3.org/community/">W3C Community and Business Groups</a>. </p>
-   <p></p>
+   <p>This specification is intended to be merged into the HTML Living Standard. It is neither a WHATWG Living Standard nor is it on the standards track at W3C.</p>
+   <p>It was published by the <a href="http://www.w3.org/community/privacycg/">Privacy Community Group</a>.
+Please note that under the <a href="http://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a> there is a limited opt-out and other conditions apply.
+Learn more about <a href="http://www.w3.org/community/">W3C Community and Business Groups</a>.</p>
   </div>
   <div data-fill-with="at-risk"></div>
   <nav data-fill-with="table-of-contents" id="toc">
@@ -1624,7 +1623,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
 };
 </pre>
    <p>The IDL attributes <code class="idl"><a data-link-type="idl" href="#dom-htmlanchorelement-adcampaignid" id="ref-for-dom-htmlanchorelement-adcampaignid">adCampaignId</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-htmlanchorelement-addestination" id="ref-for-dom-htmlanchorelement-addestination">adDestination</a></code> must <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-reflect" id="ref-for-concept-reflect">reflect</a> the <code>adcampaignid</code> and <code>addestination</code> content attributes, respectively.</p>
-   <p class="issue" id="issue-717d647e"><a class="self-link" href="#issue-717d647e"></a> Should these attributes be on HTMLHyperlinkElementUtils instead? <a href="https://github.com/WICG/ad-click-attribution/issues/1">&lt;https://github.com/WICG/ad-click-attribution/issues/1></a></p>
+   <p class="issue" id="issue-717d647e"><a class="self-link" href="#issue-717d647e"></a> Should these attributes be on HTMLHyperlinkElementUtils instead? <a href="https://github.com/privacycg/private-click-measurement/issues/1">&lt;https://github.com/privacycg/private-click-measurement/issues/1></a></p>
    <p>If an ad click on the above link triggers a top frame navigation that lands, possibly after HTTP redirects, on the <code>[ad click destination eTLD+1]</code>, the user agent stores the request for ad click attribution as the triple <code>{ [ad click source eTLD+1], [ad click destination eTLD+1], [6-bit ad campaign id] }</code>. If any of the conditions do not hold, such as the ad campaign id being larger than 6-bit, the request for ad click attribution is ignored.</p>
    <h2 class="heading settled" data-level="3" id="legacytriggering"><span class="secno">3. </span><span class="content">Legacy Triggering of Ad Click Attribution</span><a class="self-link" href="#legacytriggering"></a></h2>
    <p>Triggering of attribution is what happens when there is a conversion.</p>
@@ -1908,7 +1907,7 @@ for their feedback on this proposal.</p>
 </pre>
   <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
-   <div class="issue"> Should these attributes be on HTMLHyperlinkElementUtils instead? <a href="https://github.com/WICG/ad-click-attribution/issues/1">&lt;https://github.com/WICG/ad-click-attribution/issues/1></a><a href="#issue-717d647e"> ↵ </a></div>
+   <div class="issue"> Should these attributes be on HTMLHyperlinkElementUtils instead? <a href="https://github.com/privacycg/private-click-measurement/issues/1">&lt;https://github.com/privacycg/private-click-measurement/issues/1></a><a href="#issue-717d647e"> ↵ </a></div>
    <div class="issue"> This needs to be reworked to monkeypatch HTML’s "follows a hyperlink" algorithm.<a href="#issue-3bd5b5fa"> ↵ </a></div>
   </div>
   <aside class="dfn-panel" data-for="dom-htmlanchorelement-adcampaignid">

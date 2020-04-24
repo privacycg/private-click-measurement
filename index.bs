@@ -1,16 +1,17 @@
 <pre class='metadata'>
 Title: Private Click Measurement
-Shortname: ad-click-attribution
-Level: 1
+Shortname: private-click-measurement
+Level: None
 Status: CG-DRAFT
-Group: WICG
-Repository: WICG/ad-click-attribution
-URL: https://wicg.github.io/ad-click-attribution/index.html
+Group: privacycg
+Repository: privacycg/private-click-measurement
+URL: https://privacycg.github.io/private-click-measurement/
 Editor: John Wilander, w3cid 89478, Apple Inc. https://apple.com/, wilander@apple.com
+Status Text: This specification is intended to be merged into the HTML Living Standard. It is neither a WHATWG Living Standard nor is it on the standards track at W3C.
+Text Macro: LICENSE <a href=https://creativecommons.org/licenses/by/4.0/>Creative Commons Attribution 4.0 International License</a>
 Abstract: This specification defines a privacy preserving way to attribute a conversion, such as a purchase or a sign-up, to a previous ad click.
 Markup Shorthands: idl yes
 Complain About: missing-example-ids yes
-Complain About: broken-links yes
 </pre>
 <pre class="biblio">
 {
