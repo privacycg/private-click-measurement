@@ -37,27 +37,30 @@ The technology described in this document is intended to allow for ad click attr
 
 ## Terminology ## {#terminology}
 
-* <b>Ad click.</b> This document will use the term “ad click” for any kind of user gesture on an ad that invokes the navigation to a link destination, such as clicks, taps, and accessibility tools.
-
-* <b>Conversion.</b> A user activity that is notable such as a purchase, a sign-up to a service, or the submission of personal information such as an email address.
+: ad click
+:: This document will use the term “ad click” for any kind of user gesture on an ad that invokes the navigation to a link destination, such as clicks, taps, and accessibility tools.
+: conversion
+:: A user activity that is notable such as a purchase, a sign-up to a service, or the submission of personal information such as an email address.
 
 The four parties involved in this technology are:
 
-* <b>The user.</b> They click on an ad, end up on a destination website, and perform what's deemed to be a conversion, such as a purchase.
-
-* <b>The user agent.</b> The web browser that acts on behalf of the user and facilitates ad click attribution.
-
-* <b>The ad click source.</b> The first-party website where the user clicks on the ad.
-
-* <b>The ad click destination.</b> The destination website where the conversion happens.
+: user
+:: They click on an ad, end up on a destination website, and perform what's deemed to be a conversion, such as a purchase.
+: user agent
+:: The web browser that acts on behalf of the user and facilitates ad click attribution.
+: ad click source
+:: The first-party website where the user clicks on the ad.
+: ad click destination
+:: The destination website where the conversion happens.
 
 The data consumed by the user agent to support ad click attribution is:
 
-* <b>Ad Campaign Id.</b> A 6-bit decimal identifier for an ad campaign associated with the ad click destination. This means support for 64 concurrent ad campaigns per ad click destination on the ad click source. Example: merchant.example can run up to 64 concurrent ad campaigns on search.example. The valid decimal values are 00 to 63.
-
-* <b>Ad Attribution Data.</b> A 6-bit decimal value encoding the details of the attribution. This data may contain things like specific steps in a sales funnel or the value of the sale in buckets, such as less than $10, between $10 and $50, between $51 and $200, above $200, and so on. The valid decimal values are 00 to 63.
-
-* <b>Ad Attribution Priority.</b> An optional 6-bit decimal value encoding the priority of the attribution. The priority is only intended for the user agent to be able to pick the most important attribution request if there are multiple. One such case may be after the user has taken step 1 through 3 in a sales funnel and the third step is the most important to get attribution for. The valid decimal values are 00 to 63.
+: ad campaign id
+:: A 6-bit decimal identifier for an ad campaign associated with the ad click destination. This means support for 64 concurrent ad campaigns per ad click destination on the ad click source. Example: merchant.example can run up to 64 concurrent ad campaigns on search.example. The valid decimal values are 00 to 63.
+: ad attribution data
+:: A 6-bit decimal value encoding the details of the attribution. This data may contain things like specific steps in a sales funnel or the value of the sale in buckets, such as less than $10, between $10 and $50, between $51 and $200, above $200, and so on. The valid decimal values are 00 to 63.
+: ad attribution priority
+:: An optional 6-bit decimal value encoding the priority of the attribution. The priority is only intended for the user agent to be able to pick the most important attribution request if there are multiple. One such case may be after the user has taken step 1 through 3 in a sales funnel and the third step is the most important to get attribution for. The valid decimal values are 00 to 63.
 
 ## A High Level Scenario ## {#scenario}
 
