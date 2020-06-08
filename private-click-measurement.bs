@@ -209,14 +209,31 @@ This registration will be submitted to the IESG for review, approval, and regist
 
 # Related Work # {#relatedwork}
 
-The Web Advertising Business Group has related work that started in January 2019. It similarly uses a .well-known path with no cookies.<br>
-<a href="https://github.com/w3c/web-advertising/blob/master/admetrics.md">https://github.com/w3c/web-advertising/blob/master/admetrics.md</a>
+The Improving Web Advertising Business Group has related work that started in January 2019. It similarly uses a .well-known path with no cookies. [[METRICS]]
 
-Brave publised a security and privacy model for ad confirmations in March 2019.<br>
-<a href="https://github.com/brave/brave-browser/wiki/Security-and-privacy-model-for-ad-confirmations">https://github.com/brave/brave-browser/wiki/Security-and-privacy-model-for-ad-confirmations</a>
+Brave publised a security and privacy model for ad confirmations in March 2019. [[CONFIRMATIONS]]
 
-Google Chrome published an explainer document on May 22, 2019, for a very similar technology. They cross-reference this spec in its earlier form on the WebKit wiki.<br>
-<a href="https://github.com/csharrison/conversion-measurement-api">https://github.com/csharrison/conversion-measurement-api</a>
+Google Chrome published an explainer document on May 22, 2019, for a very similar technology. They cross-reference this spec in its earlier form on the WebKit wiki. [[EVENT-LEVEL]]
+
+<pre class="biblio">
+{
+    "METRICS": {
+        "href": "https://github.com/w3c/web-advertising/blob/master/admetrics.md",
+        "title": "Privacy protecting metrics for web audience measurement",
+        "publisher": "Improving Web Advertising Business Group"
+    },
+    "CONFIRMATIONS": {
+        "href": "https://github.com/brave/brave-browser/wiki/Security-and-privacy-model-for-ad-confirmations",
+        "title": "Security and privacy model for ad confirmations",
+        "publisher": "Brave"
+    },
+    "EVENT-LEVEL": {
+        "href": "https://github.com/WICG/conversion-measurement-api",
+        "title": "Click Through Conversion Measurement Event-Level API Explainer",
+        "publisher": "Google Chrome"
+    }
+}
+</pre>
 
 # Acknowledgements # {#acknowledgements}
 
