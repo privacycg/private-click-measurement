@@ -1224,7 +1224,7 @@ Possible extra rowspan handling
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 19c1873c, updated Thu Jun 4 14:44:17 2020 -0700" name="generator">
   <link href="https://privacycg.github.io/private-click-measurement/" rel="canonical">
-  <meta content="bce165ac300f01c1714b7ae6c3f5308fd6ea07a3" name="document-revision">
+  <meta content="6b502254aca4527a6a754bb8ea301535b2974d69" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1526,11 +1526,19 @@ Learn more about <a href="http://www.w3.org/community/">W3C Community and Busine
      </ol>
     <li><a href="#linkformat"><span class="secno">2</span> <span class="content">Ad Click Source Link Format</span></a>
     <li><a href="#legacytriggering"><span class="secno">3</span> <span class="content">Legacy Triggering of Ad Click Attribution</span></a>
-    <li><a href="#moderntriggering"><span class="secno">4</span> <span class="content">Modern Triggering of Ad Click Attribution</span></a>
-    <li><a href="#privacy"><span class="secno">5</span> <span class="content">Privacy Considerations</span></a>
-    <li><a href="#performance"><span class="secno">6</span> <span class="content">Performance Considerations</span></a>
-    <li><a href="#relatedwork"><span class="secno">7</span> <span class="content">Related Work</span></a>
-    <li><a href="#acknowledgements"><span class="secno">8</span> <span class="content">Acknowledgements</span></a>
+    <li><a href="#ad-click-attribution"><span class="secno">4</span> <span class="content">Ad Click Attribution URLs</span></a>
+    <li><a href="#click-source-destination-pairs"><span class="secno">5</span> <span class="content">Click source/destination pairs</span></a>
+    <li><a href="#six-bit-decimal-values"><span class="secno">6</span> <span class="content">Six-bit decimal values</span></a>
+    <li><a href="#moderntriggering"><span class="secno">7</span> <span class="content">Modern Triggering of Ad Click Attribution</span></a>
+    <li><a href="#privacy"><span class="secno">8</span> <span class="content">Privacy Considerations</span></a>
+    <li><a href="#performance"><span class="secno">9</span> <span class="content">Performance Considerations</span></a>
+    <li>
+     <a href="#iana"><span class="secno">10</span> <span class="content">IANA considerations</span></a>
+     <ol class="toc">
+      <li><a href="#the-ad-click-attribution-well-known-uri"><span class="secno">10.1</span> <span class="content">The <code>ad-click-attribution</code> well-known URI</span></a>
+     </ol>
+    <li><a href="#relatedwork"><span class="secno">11</span> <span class="content">Related Work</span></a>
+    <li><a href="#acknowledgements"><span class="secno">12</span> <span class="content">Acknowledgements</span></a>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -1542,6 +1550,7 @@ Learn more about <a href="http://www.w3.org/community/">W3C Community and Busine
      <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
      <ol class="toc">
       <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
+      <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
      </ol>
     <li><a href="#idl-index"><span class="secno"></span> <span class="content">IDL Index</span></a>
     <li><a href="#issues-index"><span class="secno"></span> <span class="content">Issues Index</span></a>
@@ -1560,98 +1569,144 @@ Learn more about <a href="http://www.w3.org/community/">W3C Community and Busine
      <p>Preserve user privacy, specifically prevent cross-site tracking of users.</p>
    </ul>
    <h3 class="heading settled" data-level="1.2" id="terminology"><span class="secno">1.2. </span><span class="content">Terminology</span><a class="self-link" href="#terminology"></a></h3>
-   <ul>
-    <li data-md>
-     <p><b>Ad click.</b> This document will use the term “ad click” for any kind of user gesture on an ad that invokes the navigation to a link destination, such as clicks, taps, and accessibility tools.</p>
-    <li data-md>
-     <p><b>Conversion.</b> A user activity that is notable such as a purchase, a sign-up to a service, or the submission of personal information such as an email address.</p>
-   </ul>
+   <dl>
+    <dt data-md>ad click
+    <dd data-md>
+     <p>This document will use the term “ad click” for any kind of user gesture on an ad that invokes the navigation to a link destination, such as clicks, taps, and accessibility tools.</p>
+    <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="conversion">conversion</dfn>
+    <dd data-md>
+     <p>A user activity that is notable such as a purchase, a sign-up to a service, or the submission of personal information such as an email address.</p>
+   </dl>
    <p>The four parties involved in this technology are:</p>
-   <ul>
-    <li data-md>
-     <p><b>The user.</b> They click on an ad, end up on a destination website, and perform what’s deemed to be a conversion, such as a purchase.</p>
-    <li data-md>
-     <p><b>The user agent.</b> The web browser that acts on behalf of the user and facilitates ad click attribution.</p>
-    <li data-md>
-     <p><b>The ad click source.</b> The first-party website where the user clicks on the ad.</p>
-    <li data-md>
-     <p><b>The ad click destination.</b> The destination website where the conversion happens.</p>
-   </ul>
+   <dl>
+    <dt data-md>user
+    <dd data-md>
+     <p>They click on an ad, end up on a destination website, and perform what’s deemed to be a <a data-link-type="dfn" href="#conversion" id="ref-for-conversion">conversion</a>, such as a purchase.</p>
+    <dt data-md>user agent
+    <dd data-md>
+     <p>The web browser that acts on behalf of the user and facilitates ad click attribution.</p>
+    <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="ad-click-source">ad click source</dfn>
+    <dd data-md>
+     <p>The first-party website where the user clicks on the ad.</p>
+    <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="ad-click-destination">ad click destination</dfn>
+    <dd data-md>
+     <p>The destination website where the <a data-link-type="dfn" href="#conversion" id="ref-for-conversion①">conversion</a> happens.</p>
+   </dl>
    <p>The data consumed by the user agent to support ad click attribution is:</p>
-   <ul>
-    <li data-md>
-     <p><b>Ad Campaign Id.</b> A 6-bit decimal identifier for an ad campaign associated with the ad click destination. This means support for 64 concurrent ad campaigns per ad click destination on the ad click source. Example: merchant.example can run up to 64 concurrent ad campaigns on search.example. The valid decimal values are 00 to 63.</p>
-    <li data-md>
-     <p><b>Ad Attribution Data.</b> A 6-bit decimal value encoding the details of the attribution. This data may contain things like specific steps in a sales funnel or the value of the sale in buckets, such as less than $10, between $10 and $50, between $51 and $200, above $200, and so on. The valid decimal values are 00 to 63.</p>
-    <li data-md>
-     <p><b>Ad Attribution Priority.</b> An optional 6-bit decimal value encoding the priority of the attribution. The priority is only intended for the user agent to be able to pick the most important attribution request if there are multiple. One such case may be after the user has taken step 1 through 3 in a sales funnel and the third step is the most important to get attribution for. The valid decimal values are 00 to 63.</p>
-   </ul>
+   <dl>
+    <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="ad-campaign-id">ad campaign id</dfn>
+    <dd data-md>
+     <p>A <a data-link-type="dfn" href="#six-bit-decimal-value" id="ref-for-six-bit-decimal-value">six-bit decimal value</a> for an ad campaign associated with the ad click destination. This means support for 64 concurrent ad campaigns per ad click destination on the ad click source. Example: <code>merchant.example</code> can run up to 64 concurrent ad campaigns on <code>search.example</code>. The valid decimal values are 00 to 63.</p>
+    <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="ad-attribution-data">ad attribution data</dfn>
+    <dd data-md>
+     <p>A <a data-link-type="dfn" href="#six-bit-decimal-value" id="ref-for-six-bit-decimal-value①">six-bit decimal value</a> encoding the details of the attribution. This data may contain things like specific steps in a sales funnel or the value of the sale in buckets, such as less than $10, between $10 and $50, between $51 and $200, above $200, and so on. The valid decimal values are 00 to 63.</p>
+    <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="ad-attribution-priority">ad attribution priority</dfn>
+    <dd data-md>
+     <p>An optional <a data-link-type="dfn" href="#six-bit-decimal-value" id="ref-for-six-bit-decimal-value②">six-bit decimal value</a> encoding the priority of the attribution. The priority is only intended for the user agent to be able to pick the most important attribution request if there are multiple. One such case may be after the user has taken step 1 through 3 in a sales funnel and the third step is the most important to get attribution for. The valid decimal values are 00 to 63.</p>
+   </dl>
    <h3 class="heading settled" data-level="1.3" id="scenario"><span class="secno">1.3. </span><span class="content">A High Level Scenario</span><a class="self-link" href="#scenario"></a></h3>
    <p>A high level example of a scenario where the described technology is intended to come into play is this:</p>
    <ol>
     <li data-md>
-     <p>The user makes an online search on search.example’s website.</p>
+     <p>A user searches for something on <code>search.example</code>'s website.</p>
     <li data-md>
      <p>The user is shown an ad for a product and clicks it.</p>
     <li data-md>
-     <p>The ad click source informs the user agent:</p>
+     <p>The ad click source, <code>search.example</code>, informs the user agent (see <a href="#linkformat">§ 2 Ad Click Source Link Format</a>):</p>
      <ul>
       <li data-md>
        <p>That it will want ad click attribution for this click.</p>
       <li data-md>
-       <p>What the intended ad click destination is.</p>
+       <p>What the intended <a data-link-type="dfn" href="#ad-click-destination" id="ref-for-ad-click-destination">ad click destination</a> is.</p>
       <li data-md>
-       <p>What the attribution campaign id is.</p>
+       <p>What the <a data-link-type="dfn" href="#ad-campaign-id" id="ref-for-ad-campaign-id">ad campaign id</a> is.</p>
      </ul>
     <li data-md>
-     <p>The user agent navigates the link and takes note that the user landed on the intended ad click destination.</p>
+     <p>The user agent navigates and takes note that the user landed on the intended <a data-link-type="dfn" href="#ad-click-destination" id="ref-for-ad-click-destination①">ad click destination</a>.</p>
     <li data-md>
-     <p>The user’s activity on the ad click destination leads to a conversion.</p>
+     <p>The user’s activity on the <a data-link-type="dfn" href="#ad-click-destination" id="ref-for-ad-click-destination②">ad click destination</a> leads to a <a data-link-type="dfn" href="#conversion" id="ref-for-conversion②">conversion</a>.</p>
     <li data-md>
-     <p>A third-party HTTP request is made on the ad click destination website to ​https://search.example/.well-known/ad-click-attribution</p>
+     <p>A third-party HTTP request is made on the ad click destination website to <code>​https://search.example/.well-known/ad-click-attribution</code></p>
     <li data-md>
-     <p>The user agent checks for pending ad click attributions for the ad click source/destination pair and if there’s a hit, makes or schedules an HTTP request to ​https://search.example/.well-known/ad-click-attribution with the ad click attribution data. One thing to consider here is whether there should be an option to send the attribution data to the ad click destination too.</p>
+     <p>The user agent checks for pending ad click attributions for the <a data-link-type="dfn" href="#ad-click-source-destination-pair" id="ref-for-ad-click-source-destination-pair">ad click source-destination pair</a> and if there’s a hit, makes or schedules an HTTP request to <code>​https://search.example/.well-known/ad-click-attribution</code> with the <a data-link-type="dfn" href="#ad-attribution-data" id="ref-for-ad-attribution-data">ad attribution data</a>.</p>
+     <p class="issue" id="issue-58197556"><a class="self-link" href="#issue-58197556"></a> One thing to consider here is whether there should be an option to send the <a data-link-type="dfn" href="#ad-attribution-data" id="ref-for-ad-attribution-data①">ad attribution data</a> to the <a data-link-type="dfn" href="#ad-click-destination" id="ref-for-ad-click-destination③">ad click destination</a> too.</p>
    </ol>
    <h2 class="heading settled" data-level="2" id="linkformat"><span class="secno">2. </span><span class="content">Ad Click Source Link Format</span><a class="self-link" href="#linkformat"></a></h2>
-   <p>The ad click source needs to be an anchor tag with the following properties:</p>
-<pre class="highlight"><c- p>&lt;</c-><c- f>a</c-> <c- e>adcampaignid</c-><c- o>=</c-><c- s>"[6-bit ad campaign id]"</c-> <c- e>addestination</c-><c- o>=</c-><c- s>"[ad click destination URL]"</c-><c- p>></c->
+   <p>This specification adds two attributes to the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#htmlanchorelement" id="ref-for-htmlanchorelement">HTMLAnchorElement</a></code> interface. Authors can use these attributes in HTML content like so (where <code>17</code> is an <a data-link-type="dfn" href="#ad-campaign-id" id="ref-for-ad-campaign-id①">ad campaign id</a> and <code>https://destination.example/</code> is an <a data-link-type="dfn" href="#ad-click-destination" id="ref-for-ad-click-destination④">ad click destination</a>):</p>
+<pre class="highlight"><c- p>&lt;</c-><c- f>a</c-> <c- e>adcampaignid</c-><c- o>=</c-><c- s>"17"</c-> <c- e>addestination</c-><c- o>=</c-><c- s>"https://destination.example/"</c-><c- p>></c->
 </pre>
    <p>Formally:</p>
-<pre class="idl highlight def"><c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#htmlanchorelement" id="ref-for-htmlanchorelement"><c- g>HTMLAnchorElement</c-></a> {
+<pre class="idl highlight def"><c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#htmlanchorelement" id="ref-for-htmlanchorelement①"><c- g>HTMLAnchorElement</c-></a> {
     [<a class="idl-code" data-link-type="extended-attribute" href="https://html.spec.whatwg.org/multipage/custom-elements.html#cereactions" id="ref-for-cereactions"><c- g>CEReactions</c-></a>] <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString"><c- b>DOMString</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="HTMLAnchorElement" data-dfn-type="attribute" data-export data-type="DOMString" id="dom-htmlanchorelement-adcampaignid"><code><c- g>adCampaignId</c-></code></dfn>;
     [<a class="idl-code" data-link-type="extended-attribute" href="https://html.spec.whatwg.org/multipage/custom-elements.html#cereactions" id="ref-for-cereactions①"><c- g>CEReactions</c-></a>] <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-USVString" id="ref-for-idl-USVString"><c- b>USVString</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="HTMLAnchorElement" data-dfn-type="attribute" data-export data-type="USVString" id="dom-htmlanchorelement-addestination"><code><c- g>adDestination</c-></code></dfn>;
 };
 </pre>
    <p>The IDL attributes <code class="idl"><a data-link-type="idl" href="#dom-htmlanchorelement-adcampaignid" id="ref-for-dom-htmlanchorelement-adcampaignid">adCampaignId</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-htmlanchorelement-addestination" id="ref-for-dom-htmlanchorelement-addestination">adDestination</a></code> must <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-reflect" id="ref-for-concept-reflect">reflect</a> the <code>adcampaignid</code> and <code>addestination</code> content attributes, respectively.</p>
-   <p class="issue" id="issue-717d647e"><a class="self-link" href="#issue-717d647e"></a> Should these attributes be on HTMLHyperlinkElementUtils instead? <a href="https://github.com/privacycg/private-click-measurement/issues/1">&lt;https://github.com/privacycg/private-click-measurement/issues/1></a></p>
-   <p>If an ad click on the above link triggers a top frame navigation that lands, possibly after HTTP redirects, on the <code>[ad click destination eTLD+1]</code>, the user agent stores the request for ad click attribution as the triple <code>{ [ad click source eTLD+1], [ad click destination eTLD+1], [6-bit ad campaign id] }</code>. If any of the conditions do not hold, such as the ad campaign id being larger than 6-bit, the request for ad click attribution is ignored.</p>
+   <p class="issue" id="issue-717d647e"><a class="self-link" href="#issue-717d647e"></a> Should these attributes be on <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/links.html#htmlhyperlinkelementutils" id="ref-for-htmlhyperlinkelementutils">HTMLHyperlinkElementUtils</a></code> instead? <a href="https://github.com/privacycg/private-click-measurement/issues/1">&lt;https://github.com/privacycg/private-click-measurement/issues/1></a></p>
+   <p>If an element with such attributes triggers a top frame navigation that lands, possibly after HTTP redirects, on the <a data-link-type="dfn" href="#ad-click-destination" id="ref-for-ad-click-destination⑤">ad click destination</a>, the user agent stores the request for ad click attribution as the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#tuple" id="ref-for-tuple">tuple</a> ( <a data-link-type="dfn" href="#ad-click-source" id="ref-for-ad-click-source">ad click source</a>, <a data-link-type="dfn" href="#ad-click-destination" id="ref-for-ad-click-destination⑥">ad click destination</a>, <a data-link-type="dfn" href="#ad-campaign-id" id="ref-for-ad-campaign-id②">ad campaign id</a> ). If any of the conditions do not hold, such as the <a data-link-type="dfn" href="#ad-campaign-id" id="ref-for-ad-campaign-id③">ad campaign id</a> not being a valid <a data-link-type="dfn" href="#six-bit-decimal-value" id="ref-for-six-bit-decimal-value③">six-bit decimal value</a>, the request for ad click attribution is ignored.</p>
    <h2 class="heading settled" data-level="3" id="legacytriggering"><span class="secno">3. </span><span class="content">Legacy Triggering of Ad Click Attribution</span><a class="self-link" href="#legacytriggering"></a></h2>
-   <p>Triggering of attribution is what happens when there is a conversion.</p>
-   <p>Existing ad click attribution relies on third-party HTTP requests to the click source and these requests are typically the result of invisible image elements or "tracking pixels" placed in the DOM solely to fire HTTP GET requests. To allow for a smooth transition from these old pixel requests to the new Ad Click Attribution technology, we propose a server-side redirect to a well-known <a data-link-type="biblio" href="#biblio-well-known">[WELL-KNOWN]</a> location as a legacy triggering mechanism.</p>
-   <p>To make an existing pixel request an ad click attribution from the user agent, the top frame context of an ad click destination page needs to do the following:</p>
-   <div class="algorithm" data-algorithm="legacy triggering of ad click attribution">
+   <p>Triggering of attribution is what happens when there is a <a data-link-type="dfn" href="#conversion" id="ref-for-conversion③">conversion</a>.</p>
+   <p>Existing ad click attribution relies on third-party HTTP requests to the <a data-link-type="dfn" href="#ad-click-source" id="ref-for-ad-click-source①">ad click source</a> and these requests are typically the result of invisible image elements or "tracking pixels" placed in the DOM solely to fire HTTP GET requests. To allow for a smooth transition from these old pixel requests to the new Ad Click Attribution technology, we propose a server-side redirect to a well-known location as a legacy triggering mechanism. <a data-link-type="biblio" href="#biblio-well-known">[WELL-KNOWN]</a></p>
+   <div class="algorithm" data-algorithm="trigger an ad click attribution request">
+     To <dfn data-dfn-type="dfn" data-export id="trigger-an-ad-click-attribution-request">trigger an ad click attribution request<a class="self-link" href="#trigger-an-ad-click-attribution-request"></a></dfn>, the top frame context of an <a data-link-type="dfn" href="#ad-click-destination" id="ref-for-ad-click-destination⑦">ad click destination</a> page needs to do the following: 
     <ol>
      <li data-md>
-      <p>An HTTP GET request to the <code><var>ad click source eTLD+1</var></code>. This HTTP request may be the result of an HTTP redirect, such as searchUK.example HTTP 302 redirect to search.example. The use of HTTP GET is intentional in that existing “pixel requests” can be repurposed for this and in that the HTTP request should be idempotent.</p>
+      <p>An HTTP GET request to the <a data-link-type="dfn" href="#ad-click-source" id="ref-for-ad-click-source②">ad click source</a>. This HTTP request may be the result of an HTTP redirect, such as <code>searchUK.example</code> HTTP 302 redirect to <code>search.example</code>. The use of HTTP GET is intentional in that existing “pixel requests” can be repurposed for this and in that the HTTP request should be idempotent.</p>
      <li data-md>
-      <p>A secure HTTP GET redirect to <code><var>ad click source eTLD+1</var>/.well-known/ad-click-attribution/<var>6-bit ad attribution data</var>/<var>optional 6-bit ad attribution priority</var></code>. This ensures that the <code><var>ad click source eTLD+1</var></code> is in control of who can trigger click attribution on its behalf and optionally what the priority of the attribution is. If the user agent gets such an HTTP request, it will check its stored requests for click attribution, and if there’s a match for <code><var>ad click source eTLD+1</var>, <var>ad click destination eTLD+1</var></code>, it will make or schedule a secure HTTP POST request to <code><var>ad click source eTLD+1</var>/.well-known/ad-click-attribution/<var>6-bit ad attribution data</var>/<var>6-bit ad campaign id</var></code> with the referer header set to <code><var>ad click destination eTLD+1</var></code>. The use of HTTP POST is intentional in that it differs from the HTTP GET redirect used to trigger the attribution and in that it is not expected to be idempotent. If any of the conditions do not hold, such as the ad attribution data being larger than 6-bit, the request for ad click attribution is ignored. We may have to add a nonce to the HTTP POST request to prohibit double counting in cases where the user agent decides to retry the request.</p>
+      <p>A secure HTTP GET redirect to the URL returned by <a data-link-type="dfn" href="#generate-an-ad-click-attribution-url" id="ref-for-generate-an-ad-click-attribution-url">generating an ad click attribution URL</a> for <a data-link-type="dfn" href="#ad-click-source" id="ref-for-ad-click-source③">ad click source</a> with <a data-link-type="dfn" href="#ad-attribution-data" id="ref-for-ad-attribution-data②">ad attribution data</a> and <a data-link-type="dfn" href="#ad-attribution-priority" id="ref-for-ad-attribution-priority">ad attribution priority</a>. This ensures that the <a data-link-type="dfn" href="#ad-click-source" id="ref-for-ad-click-source④">ad click source</a> is in control of who can trigger click attribution on its behalf and optionally what the priority of the attribution is. If the user agent gets such an HTTP request, it will check its stored requests for click attribution, and if there’s a match for (<a data-link-type="dfn" href="#ad-click-source" id="ref-for-ad-click-source⑤">ad click source</a>, <a data-link-type="dfn" href="#ad-click-destination" id="ref-for-ad-click-destination⑧">ad click destination</a>), it will make or schedule a secure HTTP POST request to the URL returned by <a data-link-type="dfn" href="#generate-an-ad-click-attribution-url" id="ref-for-generate-an-ad-click-attribution-url①">generating an ad click attribution URL</a> for <a data-link-type="dfn" href="#ad-click-source" id="ref-for-ad-click-source⑥">ad click source</a> with <a data-link-type="dfn" href="#ad-attribution-data" id="ref-for-ad-attribution-data③">ad attribution data</a> and <a data-link-type="dfn" href="#ad-campaign-id" id="ref-for-ad-campaign-id④">ad campaign id</a> with the referer header set to <a data-link-type="dfn" href="#ad-click-destination" id="ref-for-ad-click-destination⑨">ad click destination</a>. The use of HTTP POST is intentional in that it differs from the HTTP GET redirect used to trigger the attribution and in that it is not expected to be idempotent. If any of the conditions do not hold, such as the <a data-link-type="dfn" href="#ad-attribution-data" id="ref-for-ad-attribution-data④">ad attribution data</a> being a valid <a data-link-type="dfn" href="#six-bit-decimal-value" id="ref-for-six-bit-decimal-value④">six-bit decimal value</a>, the request for ad click attribution is ignored.
+ISSUE: We may have to add a nonce to the HTTP POST request to prohibit double counting in cases where the user agent decides to retry the request.</p>
+    </ol>
+    <p>If there are multiple ad click attribution requests for the same <a data-link-type="dfn" href="#ad-click-source-destination-pair" id="ref-for-ad-click-source-destination-pair①">ad click source-destination pair</a>, the one with the highest <a data-link-type="dfn" href="#ad-attribution-priority" id="ref-for-ad-attribution-priority①">ad attribution priority</a> will be the one sent and the rest discarded.</p>
+    <p class="issue" id="issue-3bd5b5fa"><a class="self-link" href="#issue-3bd5b5fa"></a> This needs to be reworked to monkeypatch HTML’s "follows a hyperlink" algorithm.</p>
+   </div>
+   <h2 class="heading settled" data-level="4" id="ad-click-attribution"><span class="secno">4. </span><span class="content">Ad Click Attribution URLs</span><a class="self-link" href="#ad-click-attribution"></a></h2>
+   <div class="algorithm" data-algorithm="generate an ad click attribution URL">
+    <p>Clients <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="generate-an-ad-click-attribution-url">generate an ad click attribution URL</dfn> for <var>source</var> with <var>attribution data</var> and <var>additional data</var> by following these steps:</p>
+    <ol>
+     <li data-md>
+      <p>Let <var>url</var> be the result of <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#string-concatenate" id="ref-for-string-concatenate">concatenating</a> the strings « <code>".well-known"</code>, <code>"ad-click-attribution"</code> <var>attribution data</var>, <var>additional data</var> » using the separator U+002F (/).</p>
+     <li data-md>
+      <p>Return the result of calling <code class="idl"><a data-link-type="idl" href="https://url.spec.whatwg.org/#dom-url-url" id="ref-for-dom-url-url">URL(url, base)</a></code> with url <var>url</var> and base <var>source</var>.</p>
     </ol>
    </div>
-   <p>If there are multiple ad click attribution requests for the same « [ad click source eTLD+1], [ad click destination eTLD+1] » pair, the one with the highest Ad Attribution Priority will be the one sent and the rest discarded.</p>
-   <p class="issue" id="issue-3bd5b5fa"><a class="self-link" href="#issue-3bd5b5fa"></a> This needs to be reworked to monkeypatch HTML’s "follows a hyperlink" algorithm.</p>
-   <h2 class="heading settled" data-level="4" id="moderntriggering"><span class="secno">4. </span><span class="content">Modern Triggering of Ad Click Attribution</span><a class="self-link" href="#moderntriggering"></a></h2>
-   <p>We envision a JavaScript API that is called on an ad click destination page as a modern means to trigger attribution at a conversion. This API call removes the necessity for third-party "pixels" which is great for ad click sources who do not want to be third party resources.</p>
-   <h2 class="heading settled" data-level="5" id="privacy"><span class="secno">5. </span><span class="content">Privacy Considerations</span><a class="self-link" href="#privacy"></a></h2>
-   <p>The total entropy in ad click attribution HTTP requests is 12 bits (6+6), which means 4096 unique values can be managed for each pair of ad click source and ad click destination.</p>
-   <p>With no other means of cross-site tracking, neither the ad click source nor the ad click destination will know whether the user has clicked an associated ad or not when a conversion happens. This restricts the entropy under control to 6 bits at any moment.</p>
-   <p>Even if the ad click source and/or the ad click destination were to be in control of both pieces of 6-bit data, the total is 12 bits or 4096 unique values.</p>
+   <h2 class="heading settled" data-level="5" id="click-source-destination-pairs"><span class="secno">5. </span><span class="content">Click source/destination pairs</span><a class="self-link" href="#click-source-destination-pairs"></a></h2>
+   <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="ad-click-source-destination-pair">ad click source-destination pair</dfn> is a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#tuple" id="ref-for-tuple①">tuple</a> of two <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/origin.html#site" id="ref-for-site">sites</a>: (source, destination).</p>
+   <h2 class="heading settled" data-level="6" id="six-bit-decimal-values"><span class="secno">6. </span><span class="content">Six-bit decimal values</span><a class="self-link" href="#six-bit-decimal-values"></a></h2>
+   <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="six-bit-decimal-value">six-bit decimal value</dfn> is a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#string" id="ref-for-string">string</a> for which the <a data-link-type="dfn" href="#extract-a-six-bit-decimal-value" id="ref-for-extract-a-six-bit-decimal-value">extract a six-bit decimal value</a> algorithm does not return failure.</p>
+   <div class="example" id="valid-six-bit-decimal-values">
+    <a class="self-link" href="#valid-six-bit-decimal-values"></a> 
+    <p>The <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#string" id="ref-for-string①">strings</a> <code>"00"</code> and <code>"63"</code> are both <a data-link-type="dfn" href="#six-bit-decimal-value" id="ref-for-six-bit-decimal-value⑤">six-bit decimal values</a>, whereas <code>"7"</code>, <code>"98"</code>, and <code>"!!11one"</code> are not.</p>
+   </div>
+   <div class="algorithm" data-algorithm="extract a six-bit decimal value">
+    <p>Clients <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="extract-a-six-bit-decimal-value" type="abstract-op">extract a six-bit decimal value</dfn> from a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#string" id="ref-for-string②">string</a> <var>string</var> by running these steps:</p>
+    <ol>
+     <li data-md>
+      <p>If <var>string</var>’s <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#string-length" id="ref-for-string-length">length</a> is not 2, return failure.</p>
+     <li data-md>
+      <p>Let <var>tens</var> be the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#code-unit" id="ref-for-code-unit">code unit</a> at position 0 within <var>string</var>, and <var>ones</var> be the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#code-unit" id="ref-for-code-unit①">code unit</a> at position 1.</p>
+     <li data-md>
+      <p>If <var>tens</var> is less than U+0030 (0) or greater than U+0036 (6), return failure.</p>
+     <li data-md>
+      <p>If <var>ones</var> is less than U+0030 (0) or greater than U+0039 (9), return failure.</p>
+     <li data-md>
+      <p>If <var>tens</var> is U+0036 (6) and <var>ones</var> is greater than U+0033 (3), return failure.</p>
+     <li data-md>
+      <p>Return (<var>tens</var> - 30) * 10 + ones - 30.</p>
+    </ol>
+   </div>
+   <h2 class="heading settled" data-level="7" id="moderntriggering"><span class="secno">7. </span><span class="content">Modern Triggering of Ad Click Attribution</span><a class="self-link" href="#moderntriggering"></a></h2>
+   <p>We envision a JavaScript API that is called on an ad click destination page as a modern means to trigger attribution at a <a data-link-type="dfn" href="#conversion" id="ref-for-conversion④">conversion</a>. This API call removes the necessity for third-party "pixels" which is great for ad click sources who do not want to be third party resources.</p>
+   <h2 class="heading settled" data-level="8" id="privacy"><span class="secno">8. </span><span class="content">Privacy Considerations</span><a class="self-link" href="#privacy"></a></h2>
+   <p>The total entropy in ad click attribution HTTP requests is 12 bits (6+6), which means 4096 unique values can be managed for each <a data-link-type="dfn" href="#ad-click-source-destination-pair" id="ref-for-ad-click-source-destination-pair②">ad click source-destination pair</a>.</p>
+   <p>With no other means of cross-site tracking, neither the ad click source nor the ad click destination will know whether the user has clicked an associated ad or not when a <a data-link-type="dfn" href="#conversion" id="ref-for-conversion⑤">conversion</a> happens. This restricts the entropy under control to 6 bits at any moment.</p>
+   <p>Even if the <a data-link-type="dfn" href="#ad-click-source" id="ref-for-ad-click-source⑦">ad click source</a> and/or the <a data-link-type="dfn" href="#ad-click-destination" id="ref-for-ad-click-destination①⓪">ad click destination</a> were to be in control of both <a data-link-type="dfn" href="#six-bit-decimal-value" id="ref-for-six-bit-decimal-value⑥">six-bit decimal value</a>, the total is 12 bits or 4096 unique values.</p>
    <p>We believe these restrictions avoid general cross-site tracking while still providing useful ad click attribution at web scale.</p>
-   <p>In the interest of user privacy, user agents are encouraged to deploy the following restrictions to when and how they make secure HTTP POST requests to <code><var>[ad click source eTLD+1]</var>/.well-known/ad-click-attribution/<var>[6-bit ad attribution data]</var>/<var>[6-bit ad campaign id]</var></code>:</p>
+   <p>In the interest of user privacy, user agents are encouraged to deploy the following restrictions to when and how they make secure HTTP POST requests to an <a href="#ad-click-attribution">Ad Click Attribution URL</a>:</p>
    <ul>
     <li data-md>
-     <p>The user agent targets a delay of ad click attribution requests by 24-48 hours. However, the user agent might not be running or the user’s device may be or disconnected from the Internet, in which case the request may be delayed further.</p>
+     <p>The user agent targets a delay of ad click attribution requests by 24–48 hours. However, the user agent might not be running or the user’s device may be or disconnected from the internet, in which case the request may be delayed further.</p>
     <li data-md>
-     <p>The user agent only holds on to the triple <code>{ <var>[ad click source eTLD+1]</var>, <var>[ad click destination eTLD+1]</var>, <var>[6-bit ad campaign id]</var> }</code> for 7 days, i.e. one week of potential ad click attribution.</p>
+     <p>The user agent only holds on to the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#tuple" id="ref-for-tuple②">tuple</a> (<a data-link-type="dfn" href="#ad-click-source" id="ref-for-ad-click-source⑧">ad click source</a>, <a data-link-type="dfn" href="#ad-click-destination" id="ref-for-ad-click-destination①①">ad click destination</a>, <a data-link-type="dfn" href="#ad-campaign-id" id="ref-for-ad-campaign-id⑤">ad campaign id</a>) for 7 days, i.e. one week of potential ad click attribution.</p>
     <li data-md>
      <p>The user agent doesn’t guarantee any specific order in which multiple ad click attribution requests for the same ad click destination are sent, since the order itself could be abused to increase the entropy.</p>
     <li data-md>
@@ -1665,21 +1720,40 @@ Learn more about <a href="http://www.w3.org/community/">W3C Community and Busine
     <li data-md>
      <p>The user agent doesn’t support ad click attribution in private/incognito mode.</p>
    </ul>
-   <h2 class="heading settled" data-level="6" id="performance"><span class="secno">6. </span><span class="content">Performance Considerations</span><a class="self-link" href="#performance"></a></h2>
+   <h2 class="heading settled" data-level="9" id="performance"><span class="secno">9. </span><span class="content">Performance Considerations</span><a class="self-link" href="#performance"></a></h2>
    <p>The user agent may want to limit the amount of stored ad click attribution data. Limitations can be set per ad click source, per ad click destination, and on the total amount of ad click attribution data.</p>
-   <h2 class="heading settled" data-level="7" id="relatedwork"><span class="secno">7. </span><span class="content">Related Work</span><a class="self-link" href="#relatedwork"></a></h2>
-   <p>The Web Advertising Business Group has related work that started in January 2019. It similarly uses a .well-known path with no cookies.<br> <a href="https://github.com/w3c/web-advertising/blob/master/admetrics.md">https://github.com/w3c/web-advertising/blob/master/admetrics.md</a></p>
-   <p>Brave publised a security and privacy model for ad confirmations in March 2019.<br> <a href="https://github.com/brave/brave-browser/wiki/Security-and-privacy-model-for-ad-confirmations">https://github.com/brave/brave-browser/wiki/Security-and-privacy-model-for-ad-confirmations</a></p>
-   <p>Google Chrome published an explainer document on May 22, 2019, for a very similar technology. They cross-reference this spec in its earlier form on the WebKit wiki.<br> <a href="https://github.com/csharrison/conversion-measurement-api">https://github.com/csharrison/conversion-measurement-api</a></p>
-   <h2 class="heading settled" data-level="8" id="acknowledgements"><span class="secno">8. </span><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgements"></a></h2>
+   <h2 class="heading settled" data-level="10" id="iana"><span class="secno">10. </span><span class="content">IANA considerations</span><a class="self-link" href="#iana"></a></h2>
+   <h3 class="heading settled" data-level="10.1" id="the-ad-click-attribution-well-known-uri"><span class="secno">10.1. </span><span class="content">The <code>ad-click-attribution</code> well-known URI</span><a class="self-link" href="#the-ad-click-attribution-well-known-uri"></a></h3>
+   <p>This document defines the “<code>.well-known</code>” URI <code>ad-click-attribution</code>.
+This registration will be submitted to the IESG for review, approval, and registration with IANA using the template defined in <a data-link-type="biblio" href="#biblio-well-known">[WELL-KNOWN]</a> as follows:</p>
+   <dl>
+    <dt data-md>URI suffix
+    <dd data-md>
+     <p><code>ad-click-attribution</code></p>
+    <dt data-md>Change controller
+    <dd data-md>
+     <p>W3C</p>
+    <dt data-md>Specification document(s)
+    <dd data-md>
+     <p>This document is the relevant specification. (See <a href="#ad-click-attribution">§ 4 Ad Click Attribution URLs</a>.)</p>
+    <dt data-md>Related information:
+    <dd data-md>
+     <p>None.</p>
+   </dl>
+   <h2 class="heading settled" data-level="11" id="relatedwork"><span class="secno">11. </span><span class="content">Related Work</span><a class="self-link" href="#relatedwork"></a></h2>
+   <p>The Improving Web Advertising Business Group has related work that started in January 2019. It similarly uses a .well-known path with no cookies. <a data-link-type="biblio" href="#biblio-metrics">[METRICS]</a></p>
+   <p>Brave publised a security and privacy model for ad confirmations in March 2019. <a data-link-type="biblio" href="#biblio-confirmations">[CONFIRMATIONS]</a></p>
+   <p>Google Chrome published an explainer document on May 22, 2019, for a very similar technology. They cross-reference this spec in its earlier form on the WebKit wiki. <a data-link-type="biblio" href="#biblio-event-level">[EVENT-LEVEL]</a></p>
+   <h2 class="heading settled" data-level="12" id="acknowledgements"><span class="secno">12. </span><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgements"></a></h2>
    <p>Thanks to
-Maciej Stachowiak,
 Brent Fulgham,
+Ehsan Akghari,
 Erik Neuenschwander,
 Jason Novak,
+Maciej Stachowiak,
 Mark Xue,
-Steven Englehardt,
-and Ehsan Akghari,
+and
+Steven Englehardt
 for their feedback on this proposal.</p>
   </main>
   <div data-fill-with="conformance">
@@ -1831,8 +1905,19 @@ for their feedback on this proposal.</p>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
+   <li><a href="#ad-attribution-data">ad attribution data</a><span>, in §1.2</span>
+   <li><a href="#ad-attribution-priority">ad attribution priority</a><span>, in §1.2</span>
+   <li><a href="#ad-campaign-id">ad campaign id</a><span>, in §1.2</span>
    <li><a href="#dom-htmlanchorelement-adcampaignid">adCampaignId</a><span>, in §2</span>
+   <li><a href="#ad-click-destination">ad click destination</a><span>, in §1.2</span>
+   <li><a href="#ad-click-source">ad click source</a><span>, in §1.2</span>
+   <li><a href="#ad-click-source-destination-pair">ad click source-destination pair</a><span>, in §5</span>
    <li><a href="#dom-htmlanchorelement-addestination">adDestination</a><span>, in §2</span>
+   <li><a href="#conversion">conversion</a><span>, in §1.2</span>
+   <li><a href="#extract-a-six-bit-decimal-value">extract a six-bit decimal value</a><span>, in §6</span>
+   <li><a href="#generate-an-ad-click-attribution-url">generate an ad click attribution URL</a><span>, in §4</span>
+   <li><a href="#six-bit-decimal-value">six-bit decimal value</a><span>, in §6</span>
+   <li><a href="#trigger-an-ad-click-attribution-request">trigger an ad click attribution request</a><span>, in §3</span>
   </ul>
   <aside class="dfn-panel" data-for="term-for-concept-reflect">
    <a href="https://dom.spec.whatwg.org/#concept-reflect">https://dom.spec.whatwg.org/#concept-reflect</a><b>Referenced in:</b>
@@ -1849,7 +1934,57 @@ for their feedback on this proposal.</p>
   <aside class="dfn-panel" data-for="term-for-htmlanchorelement">
    <a href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#htmlanchorelement">https://html.spec.whatwg.org/multipage/text-level-semantics.html#htmlanchorelement</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-htmlanchorelement">2. Ad Click Source Link Format</a>
+    <li><a href="#ref-for-htmlanchorelement">2. Ad Click Source Link Format</a> <a href="#ref-for-htmlanchorelement①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-htmlhyperlinkelementutils">
+   <a href="https://html.spec.whatwg.org/multipage/links.html#htmlhyperlinkelementutils">https://html.spec.whatwg.org/multipage/links.html#htmlhyperlinkelementutils</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-htmlhyperlinkelementutils">2. Ad Click Source Link Format</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-site">
+   <a href="https://html.spec.whatwg.org/multipage/origin.html#site">https://html.spec.whatwg.org/multipage/origin.html#site</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-site">5. Click source/destination pairs</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-code-unit">
+   <a href="https://infra.spec.whatwg.org/#code-unit">https://infra.spec.whatwg.org/#code-unit</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-code-unit">6. Six-bit decimal values</a> <a href="#ref-for-code-unit①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-string-concatenate">
+   <a href="https://infra.spec.whatwg.org/#string-concatenate">https://infra.spec.whatwg.org/#string-concatenate</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-string-concatenate">4. Ad Click Attribution URLs</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-string-length">
+   <a href="https://infra.spec.whatwg.org/#string-length">https://infra.spec.whatwg.org/#string-length</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-string-length">6. Six-bit decimal values</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-string">
+   <a href="https://infra.spec.whatwg.org/#string">https://infra.spec.whatwg.org/#string</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-string">6. Six-bit decimal values</a> <a href="#ref-for-string①">(2)</a> <a href="#ref-for-string②">(3)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-tuple">
+   <a href="https://infra.spec.whatwg.org/#tuple">https://infra.spec.whatwg.org/#tuple</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-tuple">2. Ad Click Source Link Format</a>
+    <li><a href="#ref-for-tuple①">5. Click source/destination pairs</a>
+    <li><a href="#ref-for-tuple②">8. Privacy Considerations</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-url-url">
+   <a href="https://url.spec.whatwg.org/#dom-url-url">https://url.spec.whatwg.org/#dom-url-url</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-url-url">4. Ad Click Attribution URLs</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-DOMString">
@@ -1876,6 +2011,22 @@ for their feedback on this proposal.</p>
     <ul>
      <li><span class="dfn-paneled" id="term-for-cereactions" style="color:initial">CEReactions</span>
      <li><span class="dfn-paneled" id="term-for-htmlanchorelement" style="color:initial">HTMLAnchorElement</span>
+     <li><span class="dfn-paneled" id="term-for-htmlhyperlinkelementutils" style="color:initial">HTMLHyperlinkElementUtils</span>
+     <li><span class="dfn-paneled" id="term-for-site" style="color:initial">site</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[INFRA]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-code-unit" style="color:initial">code unit</span>
+     <li><span class="dfn-paneled" id="term-for-string-concatenate" style="color:initial">concatenate</span>
+     <li><span class="dfn-paneled" id="term-for-string-length" style="color:initial">length</span>
+     <li><span class="dfn-paneled" id="term-for-string" style="color:initial">string</span>
+     <li><span class="dfn-paneled" id="term-for-tuple" style="color:initial">tuple</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[URL]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-dom-url-url" style="color:initial">URL(url, base)</span>
     </ul>
    <li>
     <a data-link-type="biblio">[WebIDL]</a> defines the following terms:
@@ -1891,12 +2042,25 @@ for their feedback on this proposal.</p>
    <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/">DOM Standard</a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
+   <dt id="biblio-infra">[INFRA]
+   <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/">Infra Standard</a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
+   <dt id="biblio-url">[URL]
+   <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/">URL Standard</a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
    <dt id="biblio-webidl">[WebIDL]
    <dd>Boris Zbarsky. <a href="https://heycam.github.io/webidl/">Web IDL</a>. 15 December 2016. ED. URL: <a href="https://heycam.github.io/webidl/">https://heycam.github.io/webidl/</a>
    <dt id="biblio-well-known">[WELL-KNOWN]
    <dd>M. Nottingham. <a href="https://tools.ietf.org/html/rfc8615">Well-Known Uniform Resource Identifiers (URIs)</a>. May 2019. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc8615">https://tools.ietf.org/html/rfc8615</a>
+  </dl>
+  <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
+  <dl>
+   <dt id="biblio-confirmations">[CONFIRMATIONS]
+   <dd><a href="https://github.com/brave/brave-browser/wiki/Security-and-privacy-model-for-ad-confirmations">Security and privacy model for ad confirmations</a>. URL: <a href="https://github.com/brave/brave-browser/wiki/Security-and-privacy-model-for-ad-confirmations">https://github.com/brave/brave-browser/wiki/Security-and-privacy-model-for-ad-confirmations</a>
+   <dt id="biblio-event-level">[EVENT-LEVEL]
+   <dd><a href="https://github.com/WICG/conversion-measurement-api">Click Through Conversion Measurement Event-Level API Explainer</a>. URL: <a href="https://github.com/WICG/conversion-measurement-api">https://github.com/WICG/conversion-measurement-api</a>
+   <dt id="biblio-metrics">[METRICS]
+   <dd><a href="https://github.com/w3c/web-advertising/blob/master/admetrics.md">Privacy protecting metrics for web audience measurement</a>. URL: <a href="https://github.com/w3c/web-advertising/blob/master/admetrics.md">https://github.com/w3c/web-advertising/blob/master/admetrics.md</a>
   </dl>
   <h2 class="no-num no-ref heading settled" id="idl-index"><span class="content">IDL Index</span><a class="self-link" href="#idl-index"></a></h2>
 <pre class="idl highlight def"><c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#htmlanchorelement"><c- g>HTMLAnchorElement</c-></a> {
@@ -1907,9 +2071,59 @@ for their feedback on this proposal.</p>
 </pre>
   <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
-   <div class="issue"> Should these attributes be on HTMLHyperlinkElementUtils instead? <a href="https://github.com/privacycg/private-click-measurement/issues/1">&lt;https://github.com/privacycg/private-click-measurement/issues/1></a><a href="#issue-717d647e"> ↵ </a></div>
+   <div class="issue"> One thing to consider here is whether there should be an option to send the <a data-link-type="dfn" href="#ad-attribution-data">ad attribution data</a> to the <a data-link-type="dfn" href="#ad-click-destination">ad click destination</a> too.<a href="#issue-58197556"> ↵ </a></div>
+   <div class="issue"> Should these attributes be on <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/links.html#htmlhyperlinkelementutils">HTMLHyperlinkElementUtils</a></code> instead? <a href="https://github.com/privacycg/private-click-measurement/issues/1">&lt;https://github.com/privacycg/private-click-measurement/issues/1></a><a href="#issue-717d647e"> ↵ </a></div>
    <div class="issue"> This needs to be reworked to monkeypatch HTML’s "follows a hyperlink" algorithm.<a href="#issue-3bd5b5fa"> ↵ </a></div>
   </div>
+  <aside class="dfn-panel" data-for="conversion">
+   <b><a href="#conversion">#conversion</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-conversion">1.2. Terminology</a> <a href="#ref-for-conversion①">(2)</a>
+    <li><a href="#ref-for-conversion②">1.3. A High Level Scenario</a>
+    <li><a href="#ref-for-conversion③">3. Legacy Triggering of Ad Click Attribution</a>
+    <li><a href="#ref-for-conversion④">7. Modern Triggering of Ad Click Attribution</a>
+    <li><a href="#ref-for-conversion⑤">8. Privacy Considerations</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="ad-click-source">
+   <b><a href="#ad-click-source">#ad-click-source</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-ad-click-source">2. Ad Click Source Link Format</a>
+    <li><a href="#ref-for-ad-click-source①">3. Legacy Triggering of Ad Click Attribution</a> <a href="#ref-for-ad-click-source②">(2)</a> <a href="#ref-for-ad-click-source③">(3)</a> <a href="#ref-for-ad-click-source④">(4)</a> <a href="#ref-for-ad-click-source⑤">(5)</a> <a href="#ref-for-ad-click-source⑥">(6)</a>
+    <li><a href="#ref-for-ad-click-source⑦">8. Privacy Considerations</a> <a href="#ref-for-ad-click-source⑧">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="ad-click-destination">
+   <b><a href="#ad-click-destination">#ad-click-destination</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-ad-click-destination">1.3. A High Level Scenario</a> <a href="#ref-for-ad-click-destination①">(2)</a> <a href="#ref-for-ad-click-destination②">(3)</a> <a href="#ref-for-ad-click-destination③">(4)</a>
+    <li><a href="#ref-for-ad-click-destination④">2. Ad Click Source Link Format</a> <a href="#ref-for-ad-click-destination⑤">(2)</a> <a href="#ref-for-ad-click-destination⑥">(3)</a>
+    <li><a href="#ref-for-ad-click-destination⑦">3. Legacy Triggering of Ad Click Attribution</a> <a href="#ref-for-ad-click-destination⑧">(2)</a> <a href="#ref-for-ad-click-destination⑨">(3)</a>
+    <li><a href="#ref-for-ad-click-destination①⓪">8. Privacy Considerations</a> <a href="#ref-for-ad-click-destination①①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="ad-campaign-id">
+   <b><a href="#ad-campaign-id">#ad-campaign-id</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-ad-campaign-id">1.3. A High Level Scenario</a>
+    <li><a href="#ref-for-ad-campaign-id①">2. Ad Click Source Link Format</a> <a href="#ref-for-ad-campaign-id②">(2)</a> <a href="#ref-for-ad-campaign-id③">(3)</a>
+    <li><a href="#ref-for-ad-campaign-id④">3. Legacy Triggering of Ad Click Attribution</a>
+    <li><a href="#ref-for-ad-campaign-id⑤">8. Privacy Considerations</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="ad-attribution-data">
+   <b><a href="#ad-attribution-data">#ad-attribution-data</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-ad-attribution-data">1.3. A High Level Scenario</a> <a href="#ref-for-ad-attribution-data①">(2)</a>
+    <li><a href="#ref-for-ad-attribution-data②">3. Legacy Triggering of Ad Click Attribution</a> <a href="#ref-for-ad-attribution-data③">(2)</a> <a href="#ref-for-ad-attribution-data④">(3)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="ad-attribution-priority">
+   <b><a href="#ad-attribution-priority">#ad-attribution-priority</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-ad-attribution-priority">3. Legacy Triggering of Ad Click Attribution</a> <a href="#ref-for-ad-attribution-priority①">(2)</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="dom-htmlanchorelement-adcampaignid">
    <b><a href="#dom-htmlanchorelement-adcampaignid">#dom-htmlanchorelement-adcampaignid</a></b><b>Referenced in:</b>
    <ul>
@@ -1920,6 +2134,36 @@ for their feedback on this proposal.</p>
    <b><a href="#dom-htmlanchorelement-addestination">#dom-htmlanchorelement-addestination</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-htmlanchorelement-addestination">2. Ad Click Source Link Format</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="generate-an-ad-click-attribution-url">
+   <b><a href="#generate-an-ad-click-attribution-url">#generate-an-ad-click-attribution-url</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-generate-an-ad-click-attribution-url">3. Legacy Triggering of Ad Click Attribution</a> <a href="#ref-for-generate-an-ad-click-attribution-url①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="ad-click-source-destination-pair">
+   <b><a href="#ad-click-source-destination-pair">#ad-click-source-destination-pair</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-ad-click-source-destination-pair">1.3. A High Level Scenario</a>
+    <li><a href="#ref-for-ad-click-source-destination-pair①">3. Legacy Triggering of Ad Click Attribution</a>
+    <li><a href="#ref-for-ad-click-source-destination-pair②">8. Privacy Considerations</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="six-bit-decimal-value">
+   <b><a href="#six-bit-decimal-value">#six-bit-decimal-value</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-six-bit-decimal-value">1.2. Terminology</a> <a href="#ref-for-six-bit-decimal-value①">(2)</a> <a href="#ref-for-six-bit-decimal-value②">(3)</a>
+    <li><a href="#ref-for-six-bit-decimal-value③">2. Ad Click Source Link Format</a>
+    <li><a href="#ref-for-six-bit-decimal-value④">3. Legacy Triggering of Ad Click Attribution</a>
+    <li><a href="#ref-for-six-bit-decimal-value⑤">6. Six-bit decimal values</a>
+    <li><a href="#ref-for-six-bit-decimal-value⑥">8. Privacy Considerations</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="extract-a-six-bit-decimal-value">
+   <b><a href="#extract-a-six-bit-decimal-value">#extract-a-six-bit-decimal-value</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-extract-a-six-bit-decimal-value">6. Six-bit decimal values</a>
    </ul>
   </aside>
 <script>/* script-dfn-panel */
