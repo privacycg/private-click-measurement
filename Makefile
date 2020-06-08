@@ -24,4 +24,4 @@ update-explainer-toc: README.md Makefile
 
 build/index.html: private-click-measurement.bs Makefile
 	mkdir -p build
-	bikeshed spec $< $@
+	bikeshed spec --die-on=warning $< $@
