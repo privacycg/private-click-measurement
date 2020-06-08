@@ -16,7 +16,7 @@ Complain About: missing-example-ids yes
 <pre class="biblio">
 {
     "WELL-KNOWN": {
-        "aliasOf": "RFC5785"
+        "aliasOf": "RFC8615"
     }
 }
 </pre>
