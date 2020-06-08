@@ -188,6 +188,25 @@ In the interest of user privacy, user agents are encouraged to deploy the follow
 
 The user agent may want to limit the amount of stored ad click attribution data. Limitations can be set per ad click source, per ad click destination, and on the total amount of ad click attribution data.
 
+# IANA considerations # {#iana}
+
+<h3 id="the-ad-click-attribution-well-known-uri">The `ad-click-attribution` well-known URI</h3>
+
+This document defines the “`.well-known`” URI `ad-click-attribution`.
+This registration will be submitted to the IESG for review, approval, and registration with IANA using the template defined in [[!WELL-KNOWN]] as follows:
+
+: URI suffix
+:: `ad-click-attribution`
+
+: Change controller
+:: W3C
+
+: Specification document(s)
+:: This document is the relevant specification. (See [[#ad-click-attribution]].)
+
+: Related information:
+:: None.
+
 # Related Work # {#relatedwork}
 
 The Web Advertising Business Group has related work that started in January 2019. It similarly uses a .well-known path with no cookies.<br>
