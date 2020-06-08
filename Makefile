@@ -1,9 +1,7 @@
-# Makefile --- A simple Makefile for working on specs.
-
 # This Makefile assumes you have a local install of bikeshed. Like any
 # other Python tool, you install it with pip:
 #
-#     pip3 install bikeshed && bikeshed update
+#     python3 -m pip install bikeshed && bikeshed update
 
 # It also assumes you have doctoc installed. This is a tool that
 # automatically generates Table of Contents for Markdown files. It can
@@ -11,16 +9,19 @@
 #
 #    npm install -g doctoc
 
-.PHONY: all clean update-explainer-toc
+.PHONY: all publish clean update-explainer-toc
 .SUFFIXES: .bs .html
 
-all: update-explainer-toc index.html
+publish: build/index.html
+
+all: publish update-explainer-toc
 
 clean:
-	rm -f index.html *~
-
-index.html: private-click-measurement.bs Makefile
-	bikeshed spec $< $@
+	rm -rf build *~
 
 update-explainer-toc: README.md Makefile
 	doctoc $< --title "## Table of Contents" > /dev/null
+
+build/index.html: private-click-measurement.bs Makefile
+	mkdir -p build
+	bikeshed spec $< $@
