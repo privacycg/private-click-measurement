@@ -238,11 +238,12 @@ Google Chrome published an explainer document on May 22, 2019, for a very simila
 # Acknowledgements # {#acknowledgements}
 
 Thanks to
-Maciej Stachowiak,
 Brent Fulgham,
+Ehsan Akghari,
 Erik Neuenschwander,
 Jason Novak,
+Maciej Stachowiak,
 Mark Xue,
-Steven Englehardt,
-and Ehsan Akghari,
+and
+Steven Englehardt
 for their feedback on this proposal.
