@@ -89,14 +89,14 @@ A high level example of a scenario where the described technology is intended to
 This specification adds two attributes to the {{HTMLAnchorElement}} interface. Authors can use these attributes in HTML content like so (where `17` is an [=source id=] and `https://destination.example/` is an [=attribute-on website=]):
 
 <xmp class="highlight" highlight=html>
-<a sourceid="17" attributeon="https://destination.example/">
+<a attributionsourceid="17" attributeon="https://destination.example/">
 </xmp>
 
 Formally:
 
 <pre class="idl">
 partial interface HTMLAnchorElement {
-    [CEReactions] attribute DOMString sourceId;
+    [CEReactions] attribute DOMString attributionSourceId;
     [CEReactions] attribute USVString attributeOn;
 };
 </pre>
@@ -178,7 +178,7 @@ An <dfn>click source-attribute-on pair</dfn> is a [=tuple=] of two [=sites=]: (s
 
 A <dfn>four-bit decimal value</dfn> is a [=string=] for which the [=extract a four-bit decimal value=] algorithm does not return failure.
 A <dfn>six-bit decimal value</dfn> is a [=string=] for which the [=extract a six-bit decimal value=] algorithm does not return failure.
-A <dfn>eight-bit decimal value</dfn> is a [=string=] for which the [=extract a eight-bit decimal value=] algorithm does not return failure.
+A <dfn>eight-bit decimal value</dfn> is a [=string=] for which the [=extract an eight-bit decimal value=] algorithm does not return failure.
 
 <div class=example id="valid-four-bit-decimal-values">
 
