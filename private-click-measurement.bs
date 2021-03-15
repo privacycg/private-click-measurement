@@ -50,13 +50,13 @@ The four parties involved in this technology are:
 :: The web browser that acts on behalf of the user and facilitates click attribution.
 : <dfn>click source website</dfn>
 :: The first-party website where the user clicks.
-: <dfn>attribute-on website</dfn>
+: <dfn>attribution destination website</dfn>
 :: The destination website where the user performs an action that triggers attribution.
 
 The data consumed by the user agent to support private click measurement is:
 
-: <dfn>source id</dfn>
-:: A [=eight-bit decimal value=] identifying the content that was clicked to navigate to the destination. This means support for 255 unique pieces of content, such as ads, per click destination on the click source. Example: `merchant.example` can run up to 255 concurrent ad campaigns on `search.example`. The valid decimal values are 0 to 255.
+: <dfn>attribution source id</dfn>
+:: An [=eight-bit decimal value=] identifying the content that was clicked to navigate to the destination. This means support for 255 unique pieces of content, such as ads, per click destination on the click source. Example: `merchant.example` can run up to 255 concurrent ad campaigns on `search.example`. The valid decimal values are 0 to 255.
 : <dfn>trigger data</dfn>
 :: A [=four-bit decimal value=] encoding the user action that triggers the attribution. This value may encode things like specific steps in a sales funnel or the value of the sale in buckets, such as less than $10, between $10 and $50, between $51 and $200, above $200, and so on. The valid decimal values are 00 to 15.
 : <dfn>optional trigger priority</dfn>
@@ -65,7 +65,7 @@ The data consumed by the user agent to support private click measurement is:
 The final step in private click measurement results in an:
 
 : <dfn>attribution report</dfn>
-:: An report comprised of the [=click source website=], [=source id=], [=attribute-on website=], and [=trigger data=].
+:: An report comprised of the [=click source website=], [=attribution source id=], [=attribution destination website=], and [=trigger data=].
 
 ## A High Level Scenario ## {#scenario}
 
@@ -75,37 +75,37 @@ A high level example of a scenario where the described technology is intended to
 2. The user is shown an ad for a product and clicks it.
 3. The [=click source website=], `search.example`, informs the user agent (see [[#linkformat]]):
     - That it will want attribution for this click.
-    - What the intended [=attribute-on website=] is.
-    - What the [=source id=] is.
-4. The user agent navigates and takes note that the user landed on the intended [=attribute-on website=].
-5. The user's activity on the [=attribute-on website=] leads to a [=triggering event=].
+    - What the intended [=attribution destination website=] is.
+    - What the [=attribution source id=] is.
+4. The user agent navigates and takes note that the user landed on the intended [=attribution destination website=].
+5. The user's activity on the [=attribution destination website=] leads to a [=triggering event=].
 6. A third-party HTTP request is made on the [=click source website=] to `​https://search.example/.well-known/private-click-measurement/trigger-attribution/` with [=trigger data=].
 7. The user agent checks for stored clicks for the [=click source-attribute-on pair=] and if there's a hit, makes or schedules an HTTP POST request to `​https://search.example/.well-known/private-click-measurement/report-attribution/` with the corresponding [=attribution report=].
 
-    ISSUE: One thing to consider here is whether there should be an option to send the [=attribution report=] to the [=attribute-on website=] too.
+    ISSUE: One thing to consider here is whether there should be an option to send the [=attribution report=] to the [=attribution destination website=] too.
 
 # Click Source Link Format # {#linkformat}
 
-This specification adds two attributes to the {{HTMLAnchorElement}} interface. Authors can use these attributes in HTML content like so (where `17` is an [=source id=] and `https://destination.example/` is an [=attribute-on website=]):
+This specification adds two attributes to the {{HTMLAnchorElement}} interface. Authors can use these attributes in HTML content like so (where `17` is an [=attribution source id=] and `https://destination.example/` is an [=attribution destination website=]):
 
 <xmp class="highlight" highlight=html>
-<a attributionsourceid="17" attributeon="https://destination.example/">
+<a attributionsourceid="17" attributiondestination="https://destination.example/">
 </xmp>
 
 Formally:
 
 <pre class="idl">
 partial interface HTMLAnchorElement {
-    [CEReactions] attribute DOMString attributionSourceId;
-    [CEReactions] attribute USVString attributeOn;
+    [CEReactions] attribute unsigned long attributionSourceId;
+    [CEReactions] attribute DOMString attributionDestination;
 };
 </pre>
 
-The IDL attributes {{HTMLAnchorElement/sourceId}} and {{HTMLAnchorElement/attributeOn}} must [=reflect=] the <code>sourceid</code> and <code>attributeon</code> content attributes, respectively.
+The IDL attributes {{HTMLAnchorElement/attributionSourceId}} and {{HTMLAnchorElement/attributionDestination}} must [=reflect=] the <code>attributionsourceid</code> and <code>attributiondestination</code> content attributes, respectively.
 
 ISSUE(1): Should these attributes be on {{HTMLHyperlinkElementUtils}} instead?
 
-If an element with such attributes triggers a top frame navigation that lands, possibly after HTTP redirects, on the [=attribute-on website=], the user agent stores the request for click attribution as the [=tuple=] ( [=click source website=], [=attribute-on website=], [=source id=] ). If any of the conditions do not hold, such as the [=source id=] not being a valid [=eight-bit decimal value=], the request for click attribution is ignored.
+If an element with such attributes triggers a top frame navigation that lands, possibly after HTTP redirects, on the [=attribution destination website=], the user agent stores the request for click attribution as the [=tuple=] ( [=click source website=], [=attribution destination website=], [=attribution source id=] ). If any of the conditions do not hold, such as the [=attribution source id=] not being a valid [=eight-bit decimal value=], the request for click attribution is ignored.
 
 # Triggering of Click Attribution # {#triggering}
 
@@ -115,10 +115,10 @@ Existing ad click attribution relies on third-party HTTP requests to the [=click
 
 <div algorithm>
 
-To generate a <dfn export>triggering event</dfn>, the top frame context of an [=attribute-on website=] page needs to do the following:
+To generate a <dfn export>triggering event</dfn>, the top frame context of an [=attribution destination website=] page needs to do the following:
 
 1. An HTTP GET request to the [=click source website=]. This HTTP request may be the result of an HTTP redirect, such as `searchUK.example` HTTP 302 redirect to `search.example`. The use of HTTP GET is intentional in that existing “pixel requests” can be repurposed for this and in that the HTTP request should be idempotent.
-1. A secure HTTP GET redirect to the URL returned by [=generate a tiggering event URL|generating a triggering event URL=] for [=click source website=] with [=trigger data=] and [=optional trigger priority=]. This mandatory redirect ensures that the [=click source website=] is in control of who can trigger click attribution on its behalf and optionally what the priority is. If the user agent gets such an HTTP request, it will check its stored clicks, and if there's a match for ([=click source website=], [=attribute-on website=]), attribution has been triggered for that stored click.
+1. A secure HTTP GET redirect to the URL returned by [=generate a tiggering event URL|generating a triggering event URL=] for [=click source website=] with [=trigger data=] and [=optional trigger priority=]. This mandatory redirect ensures that the [=click source website=] is in control of who can trigger click attribution on its behalf and optionally what the priority is. If the user agent gets such an HTTP request, it will check its stored clicks, and if there's a match for ([=click source website=], [=attribution destination website=]), attribution has been triggered for that stored click.
 
 </div>
 
@@ -178,7 +178,7 @@ An <dfn>click source-attribute-on pair</dfn> is a [=tuple=] of two [=sites=]: (s
 
 A <dfn>four-bit decimal value</dfn> is a [=string=] for which the [=extract a four-bit decimal value=] algorithm does not return failure.
 A <dfn>six-bit decimal value</dfn> is a [=string=] for which the [=extract a six-bit decimal value=] algorithm does not return failure.
-A <dfn>eight-bit decimal value</dfn> is a [=string=] for which the [=extract an eight-bit decimal value=] algorithm does not return failure.
+A <dfn>eight-bit decimal value</dfn> is an unsigned long between 0 and 255 inclusive.
 
 <div class=example id="valid-four-bit-decimal-values">
 
@@ -218,44 +218,23 @@ Clients <dfn type=abstract-op>extract a six-bit decimal value</dfn> from a [=str
 
 </div>
 
-<div class=example id="valid-eight-bit-decimal-values">
-
-The [=strings=] `"0"` and `"255"` are both [=eight-bit decimal values=], whereas `"398"` and `"!!11one"` are not.
-
-</div>
-
-<div algorithm>
-
-Clients <dfn type=abstract-op>extract a eight-bit decimal value</dfn> from a [=string=] |string| by running these steps:
-
-1. If |string|'s [=string/length=] is less than one or greater than three, return failure.
-1. Let |hundreds| be the [=code unit=] at position 0 within |string|, |tens| be the [=code unit=] at position 1, and |ones| be the [=code unit=] at position 2.
-1. If |hundreds| is less than U+0030 (0) or greater than U+0032 (2), return failure.
-1. If |tens| is less than U+0030 (0) or greater than U+0039 (9), return failure.
-1. If |ones| is less than U+0030 (0) or greater than U+0039 (9), return failure.
-1. If |hundreds| is U+0032 (2) and |tens| is greater than U+0035 (5), return failure.
-1. If |hundreds| is U+0032 (2), |tens| is greater than U+0035 (5), and |ones| is greater than U+0035 (5), return failure.
-1. Return (|hundreds| - 30) * 100 + (|tens| - 30) * 10 + ones - 30.
-
-</div>
-
 # Modern Triggering of Attribution # {#modern-triggering}
 
-We envision a JavaScript API and a same-site "pixel" redirect on the [=attribute-on website=] as a modern [=triggering event=]. This removes the necessity for third-party "pixels" and would allow the [=attribute-on website=] to fire a [=triggering event=] without direct dependencies to the exact [=click source website=]s where their incoming clicks are coming from.
+We envision a JavaScript API and a same-site "pixel" redirect on the [=attribution destination website=] as a modern [=triggering event=]. This removes the necessity for third-party "pixels" and would allow the [=attribution destination website=] to fire a [=triggering event=] without direct dependencies to the exact [=click source website=]s where their incoming clicks are coming from.
 
 # Privacy Considerations # {#privacy}
 
 The total entropy in Private Click Measurement HTTP requests is 12 bits (8+4), which means 4096 unique values can be managed for each [=click source-attribute-on pair=].
 
-With no other means of cross-site tracking, the [=click source website=] and the [=attribute-on website=] have no joint view of the user or the device. This restricts the entropy under control to 8 bits, or 256 values, at any moment.
+With no other means of cross-site tracking, the [=click source website=] and the [=attribution destination website=] have no joint view of the user or the device. This restricts the entropy under control to 8 bits, or 256 values, at any moment.
 
 We believe these restrictions avoid general cross-site tracking while still providing useful click attribution at web scale.
 
 In the interest of user privacy, user agents are encouraged to deploy the following restrictions to when and how they make secure HTTP POST requests to an [[#attribution-report-url|Attribution Report URL]]:
 
 * The user agent targets a delay of [=attribution report=] requests by 24–48 hours. However, the user agent might not be running or the user's device may be or disconnected from the internet, in which case the request may be delayed further.
-* The user agent only holds on to the [=tuple=] ([=click source website=], [=attribute-on website=], [=source id=]) for 7 days, i.e. one week of potential click attribution.
-* The user agent doesn't guarantee any specific order in which multiple [=attribution report=] requests for the same [=attribute-on website=] are sent, since the order itself could be abused to increase the entropy.
+* The user agent only holds on to the [=tuple=] ([=click source website=], [=attribution destination website=], [=attribution source id=]) for 7 days, i.e. one week of potential click attribution.
+* The user agent doesn't guarantee any specific order in which multiple [=attribution report=] requests for the same [=attribution destination website=] are sent, since the order itself could be abused to increase the entropy.
 * The user agent uses an ephemeral session (a.k.a. private or incognito mode) to make [=attribution report=] requests.
 * The user agent doesn't use or accept any credentials such as cookies, client certificates, or Basic Authentication in [=attribution report=] requests or responses.
 * The user agent may use a central clearinghouse to further anonymize [=attribution report=] requests, should a trustworthy clearinghouse exist.
@@ -264,7 +243,7 @@ In the interest of user privacy, user agents are encouraged to deploy the follow
 
 # Performance Considerations # {#performance}
 
-The user agent may want to limit the amount of stored click attribution data. Limitations can be set per [=click source website=], per [=attribute-on website=], and on the total amount of click attribution data.
+The user agent may want to limit the amount of stored click attribution data. Limitations can be set per [=click source website=], per [=attribution destination website=], and on the total amount of click attribution data.
 
 # IANA considerations # {#iana}
 
