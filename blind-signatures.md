@@ -18,7 +18,7 @@ This algorithm is implemented in WebKit, dependent on an underlying crypto frame
     }
 ```
 
-3. The browser generates an unlinkable token.
+3. The browser generates a random value, `source_secret_token` From this, it generates an unlinkable token with `source_unlinkable_token, source_inv = rsabssa_blind(source_public_key, source_secret_token)`, using RSA Blind Signature Scheme with Appendix (RSABSSA), proposed in the [IETF](https://datatracker.ietf.org/doc/draft-wood-cfrg-rsa-blind-signatures/).
 
 4. The browser sends the unlinkable token together with the source nonce to the click source at `https://clicksource.example/.well-known/private-click-measurement/sign-unlinkable-token/`. The request body looks like this:
 
@@ -37,11 +37,11 @@ This algorithm is implemented in WebKit, dependent on an underlying crypto frame
 
 ```
     {
-      "unlinkable_token": …
+      "unlinkable_token_signature": …
     }
 ```
 
-7. The browser generates a secret token for which the click source’s signature is valid but there is nothing linking it to the unlinkable token.
+7. The browser generates the signature for the original `source_secret_token` with `source_secret_token_signature = rsabssa_finalize(source_public_key, source_secret_token, source_secret_token_sig, source_inv)` using RSA Blind Signature Scheme with Appendix (RSABSSA), proposed in the [IETF](https://datatracker.ietf.org/doc/draft-wood-cfrg-rsa-blind-signatures/).
 
 8. The triggering event happens.
 
