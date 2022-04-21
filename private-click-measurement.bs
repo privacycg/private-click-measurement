@@ -241,6 +241,18 @@ In the interest of user privacy, user agents are encouraged to deploy the follow
 * The user agent offers users a way to turn Private Click Measurement on and off.
 * The user agent doesn't support Private Click Measurement in private/incognito mode.
 
+## Event-Level Measurement Combined With Pre-Existing Tracking Vectors ## {#pre-existing-tracking-vectors}
+
+Any form of event-level measurement, i.e. where there's one report per event, can be combined with pre-existing tracking vectors in an attempt to track users cross-site.
+
+### Combined With Fingerprinting ### {#combined-with-fingerprinting}
+
+One pre-existing tracking vector is device fingerprinting. The click source and click destination may be able to record fingerprints for all measured events based on e.g. IP address, user agent string, and user-installed fonts. These fingerprints would reduce the number of users who would need a unique ID in event-level attribution reports to be uniquelly identified. Combining with fingerprinting is not a problem inherent to event-level meaurement such as Private Click Measurement, but rather an existing privacy problem on the web. User agents have to defend against device fingerprinting to prohibit this kind of attack.
+
+### Combined With Navigational Tracking ### {#combined-with-navigational-tracking}
+
+Another pre-existing tracking vector is [navigational tracking](https://privacycg.github.io/nav-tracking-mitigations/#terminology), sometimes referred to as link decoration tracking. The click source can include a user ID or click ID in the destination URL and the click destination can read and store that ID for attribution purposes. Under the assumption of navigational tracking, there is no need for a feature like Private Click Measurement but it is of course possible to combine navigational tracking with event-level measurement to try to track individual users cross-site. This problem is not inherent to event-level meaurement such as Private Click Measurement, but rather an existing privacy problem on the web. User agents have to defend against navigational tracking to prohibit this kind of attack.
+
 # Performance Considerations # {#performance}
 
 The user agent may want to limit the amount of stored click attribution data. Limitations can be set per [=click source website=], per [=attribution destination website=], and on the total amount of click attribution data.
